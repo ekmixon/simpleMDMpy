@@ -20,9 +20,9 @@ class Connection(object): #pylint: disable=old-style-class,too-few-public-method
     def __init__(self, api_key):
         self.api_key = api_key
 
-    def _url(self, path): #pylint: disable=no-self-use
+    def _url(self, path):    #pylint: disable=no-self-use
         """base api url"""
-        return 'https://a.simplemdm.com/api/v1' + path
+        return f'https://a.simplemdm.com/api/v1{path}'
 
     def _get_data(self, url, params=None):
         """GET call to SimpleMDM API"""
@@ -31,7 +31,7 @@ class Connection(object): #pylint: disable=old-style-class,too-few-public-method
         resp_data = []
         base_url = url
         while has_more:
-            url = base_url + "?limit=100&starting_after=" + str(start_id)
+            url = f"{base_url}?limit=100&starting_after={str(start_id)}"
             resp = requests.get(url, params, auth=(self.api_key, ""), proxies=self.proxyDict)
             if not 200 <= resp.status_code <= 207:
                 raise ApiError(f"API returned status code {resp.status_code}")
@@ -45,21 +45,21 @@ class Connection(object): #pylint: disable=old-style-class,too-few-public-method
 
     def _patch_data(self, url, data, files=None):
         """PATCH call to SimpleMDM API"""
-        resp = requests.patch(url, data, auth=(self.api_key, ""), \
-            files=files, proxies=self.proxyDict)
-        return resp
+        return requests.patch(
+            url, data, auth=(self.api_key, ""), files=files, proxies=self.proxyDict
+        )
 
     def _post_data(self, url, data, files=None):
         """POST call to SimpleMDM API"""
-        resp = requests.post(url, data, auth=(self.api_key, ""), \
-            files=files, proxies=self.proxyDict)
-        return resp
+        return requests.post(
+            url, data, auth=(self.api_key, ""), files=files, proxies=self.proxyDict
+        )
 
     def _put_data(self, url, data, files=None):
         """PUT call to SimpleMDM API"""
-        resp = requests.put(url, data, auth=(self.api_key, ""), \
-            files=files, proxies=self.proxyDict)
-        return resp
+        return requests.put(
+            url, data, auth=(self.api_key, ""), files=files, proxies=self.proxyDict
+        )
 
     def _delete_data(self, url):
         """DELETE call to SimpleMDM API"""

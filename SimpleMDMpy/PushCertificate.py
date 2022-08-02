@@ -33,4 +33,4 @@ class PushCertificate(SimpleMDMpy.SimpleMDM.Connection):
         encoded plist for upload to the Apple Push
         Certificates Portal. The value of the data
         key can be uploaded to Apple as is"""
-        return self._get_data(self.url + "/scsr")
+        return self._get_data(f"{self.url}/scsr")
